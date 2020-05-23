@@ -1,12 +1,12 @@
-const manager = require("./lib/Manager");
-const engineer = require("./lib/Engineer");
-const intern = require("./lib/Intern");
+const Manager = require("./lib/Manager");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
+const outputPath = path.join(OUTPUT_DIR, "main.html");
 
 const render = require("./lib/htmlRenderer");
 
@@ -86,6 +86,7 @@ function startApp() {
       .then((answers) => {
         // create a manager variable to store new manager object created with the imported Manager class
         // initialize it with user answers for name, id, email, office number.
+        const manager = Manager;
         const manager = answers;
         // push newly created manager object to [your_team_members]
         manager.push(teamMembers);
@@ -140,28 +141,71 @@ function startApp() {
         {
           // ask for engineer's name
           // validate the name is not empty; return true or if false, return a message
+          type: "input",
+          message: "What is your name?",
+          name: "name",
+          validate: function (value) {
+            if (value === "") {
+              return "You need a name";
+            } else {
+              return true;
+            }
+          },
         },
         {
           // ask for engineer's id
           // validate the id is numbers and the id has not been taken; return true or
           // if false, just return a reminder message
+          type: "input",
+          message: "What is your id?",
+          name: "id",
+          validate: function (value) {
+            if (/[1-100]/gi.test(value)) {
+              return true;
+            } else {
+              return "Please eneter a valid id";
+            }
+          },
         },
         {
           // ask for engineer's email
           // validate email for correct email format
+          type: "input",
+          message: "What is your email?",
+          name: "email",
+          validate: function (value) {
+            if (
+              /[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/gi.test(value)
+            ) {
+              return true;
+            } else {
+              return "Please eneter a valid email";
+            }
+          },
         },
         {
           // ask for gibhub user name
           // validate user name is not empty; return true or if false, just return a user friendly message
+          type: "input",
+          message: "What is your Github username?",
+          name: "username",
+          validate: function (value) {
+            if (/[a-zA-Z0-9._]/gi.test(value)) {
+              return true;
+            } else {
+              return "Please eneter a valid username";
+            }
+          },
         },
       ])
       .then((answers) => {
         // create an engineer object with user answers and store it to a constant variable
-
+        const engineer = Engineer;
+        const engineer = answers;
         // push newly created engineer object to [your_team_members]
-
+        engineer.push(teamMembers);
         // push engineer id to id array
-
+        answers.id.push(idArray);
         // call function createEmpTeam
         createEmpTeam();
       });
@@ -173,27 +217,70 @@ function startApp() {
         {
           // ask for intern's name
           // validate name is not empty; return true or if false, return a message
+          type: "input",
+          message: "What is your name?",
+          name: "name",
+          validate: function (value) {
+            if (value === "") {
+              return "You need a name";
+            } else {
+              return true;
+            }
+          },
         },
         {
           // ask for intern's id
           // validate id is number and id has not been taken; return true or if false, return a message
+          type: "input",
+          message: "What is your id?",
+          name: "id",
+          validate: function (value) {
+            if (/[1-100]/gi.test(value)) {
+              return true;
+            } else {
+              return "Please eneter a valid id";
+            }
+          },
         },
         {
           // ask for intern's email
           // validate email for correct email format; return trur or if false, return a message
+          type: "input",
+          message: "What is your email?",
+          name: "email",
+          validate: function (value) {
+            if (
+              /[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/gi.test(value)
+            ) {
+              return true;
+            } else {
+              return "Please eneter a valid email";
+            }
+          },
         },
         {
           // ask for intern's school
           // validate school is not empty;  return true or if false, return a message
+          type: "input",
+          message: "What is your school?",
+          name: "school",
+          validate: function (value) {
+            if (value === "") {
+              return "You need a school";
+            } else {
+              return true;
+            }
+          },
         },
       ])
       .then((answers) => {
         // create an intern object and intialize it wirh user's answers; assign it to a constant variable
-
+        const intern = Intern;
+        const intern = answers;
         // push the newly created intern object to [your_team_members]
-
+        intern.push(teamMembers);
         // push id to id array
-
+        answers.id.push(idArray);
         // call function createEmpTeam
         createEmpTeam();
       });
@@ -207,6 +294,8 @@ function startApp() {
 
     // call function 'render' passing [your_team_members] array as input argument
     // use the return value from render function as data to fs.writeFileSync function
+    render(teamMembers);
+    fs.writeFileSync(outputPath, "main.html"), teamMembers;
   }
 
   createEmpManager();
