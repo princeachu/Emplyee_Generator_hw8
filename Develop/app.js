@@ -1,6 +1,6 @@
-const Manager = require("./lib/Manager");
-const Engineer = require("./lib/Engineer");
-const Intern = require("./lib/Intern");
+const manager = require("./lib/Manager");
+const engineer = require("./lib/Engineer");
+const intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
@@ -55,20 +55,42 @@ function startApp() {
         {
           // ask for manager's email
           // validate user input for correct email format; return true or if false, return a message
+          type: "input",
+          message: "What is your email?",
+          name: "email",
+          validate: function (value) {
+            if (
+              /[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/gi.test(value)
+            ) {
+              return true;
+            } else {
+              return "Please eneter a valid email";
+            }
+          },
         },
         {
           // ask for manager's office number
           // validate user answer for number; return true or if false, return a message
+          type: "input",
+          message: "What is your office number?",
+          name: "officeNumber",
+          validate: function (value) {
+            if (/[1-100]/gi.test(value)) {
+              return true;
+            } else {
+              return "Please eneter a valid office number";
+            }
+          },
         },
       ])
       .then((answers) => {
         // create a manager variable to store new manager object created with the imported Manager class
         // initialize it with user answers for name, id, email, office number.
-
+        const manager = answers;
         // push newly created manager object to [your_team_members]
-
+        manager.push(teamMembers);
         // push id from user answer to [id_array]
-
+        answers.id.push(idArray);
         // call createEmpTeam to start creat the team for the manager
         createEmpTeam();
       });
