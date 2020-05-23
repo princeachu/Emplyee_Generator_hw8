@@ -86,12 +86,16 @@ function startApp() {
       .then((answers) => {
         // create a manager variable to store new manager object created with the imported Manager class
         // initialize it with user answers for name, id, email, office number.
-        const manager = Manager;
-        const manager = answers;
+        const manager = new Manager(
+          answers.name,
+          answers.id,
+          answers.email,
+          answers.officeNumber
+        );
         // push newly created manager object to [your_team_members]
-        manager.push(teamMembers);
+        teamMembers.push(manager);
         // push id from user answer to [id_array]
-        answers.id.push(idArray);
+        idArray.push(answers.id);
         // call createEmpTeam to start creat the team for the manager
         createEmpTeam();
       });
@@ -200,12 +204,16 @@ function startApp() {
       ])
       .then((answers) => {
         // create an engineer object with user answers and store it to a constant variable
-        const engineer = Engineer;
-        const engineer = answers;
+        const engineer = new Engineer(
+          answers.email,
+          answers.id,
+          answers.name,
+          answers.username
+        );
         // push newly created engineer object to [your_team_members]
-        engineer.push(teamMembers);
+        teamMembers.push(engineer);
         // push engineer id to id array
-        answers.id.push(idArray);
+        idArray.push(answers.id);
         // call function createEmpTeam
         createEmpTeam();
       });
@@ -275,12 +283,16 @@ function startApp() {
       ])
       .then((answers) => {
         // create an intern object and intialize it wirh user's answers; assign it to a constant variable
-        const intern = Intern;
-        const intern = answers;
+        const intern = new Intern(
+          answers.id,
+          answers.name,
+          answers.email,
+          answers.school
+        );
         // push the newly created intern object to [your_team_members]
-        intern.push(teamMembers);
+        teamMembers.push(intern);
         // push id to id array
-        answers.id.push(idArray);
+        idArray.push(answers.id);
         // call function createEmpTeam
         createEmpTeam();
       });
@@ -295,7 +307,7 @@ function startApp() {
     // call function 'render' passing [your_team_members] array as input argument
     // use the return value from render function as data to fs.writeFileSync function
     render(teamMembers);
-    fs.writeFileSync(outputPath, "main.html"), teamMembers;
+    fs.writeFileSync(outputPath, "main.html", teamMembers);
   }
 
   createEmpManager();
