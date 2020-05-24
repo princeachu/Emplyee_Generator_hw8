@@ -45,10 +45,10 @@ function startApp() {
           message: "What is your id?",
           name: "id",
           validate: function (value) {
-            if (/[1-100]/gi.test(value)) {
+            if (Number.isInteger(parseInt(value))) {
               return true;
             } else {
-              return "Please eneter a valid id";
+              return "Please eneter a valid number id";
             }
           },
         },
@@ -75,11 +75,9 @@ function startApp() {
           message: "What is your office number?",
           name: "officeNumber",
           validate: function (value) {
-            if (/[1-100]/gi.test(value)) {
+            if (Number.isInteger(parseInt(value))) {
               return true;
-            } else {
-              return "Please eneter a valid office number";
-            }
+            } else return "Please eneter a valid office number";
           },
         },
       ])
@@ -96,6 +94,7 @@ function startApp() {
         teamMembers.push(manager);
         // push id from user answer to [id_array]
         idArray.push(answers.id);
+        console.log(idArray);
         // call createEmpTeam to start creat the team for the manager
         createEmpTeam();
       });
@@ -164,10 +163,10 @@ function startApp() {
           message: "What is your id?",
           name: "id",
           validate: function (value) {
-            if (/[1-100]/gi.test(value)) {
+            if (Number.isInteger(parseInt(value)) ^ idArray.includes(value)) {
               return true;
             } else {
-              return "Please eneter a valid id";
+              return "Please choose a differnt id";
             }
           },
         },
@@ -243,10 +242,10 @@ function startApp() {
           message: "What is your id?",
           name: "id",
           validate: function (value) {
-            if (/[1-100]/gi.test(value)) {
+            if (Number.isInteger(parseInt(value)) ^ idArray.includes(value)) {
               return true;
             } else {
-              return "Please eneter a valid id";
+              return "Please choose a differnt id";
             }
           },
         },
@@ -307,7 +306,10 @@ function startApp() {
     // call function 'render' passing [your_team_members] array as input argument
     // use the return value from render function as data to fs.writeFileSync function
     render(teamMembers);
-    fs.writeFileSync(outputPath, "main.html", teamMembers);
+    console.log(teamMembers);
+    fs.writeFileSync(outputPath, render(teamMembers), function (err) {
+      if (err) throw err;
+    });
   }
 
   createEmpManager();
