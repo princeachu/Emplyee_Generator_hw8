@@ -204,9 +204,9 @@ function startApp() {
       .then((answers) => {
         // create an engineer object with user answers and store it to a constant variable
         const engineer = new Engineer(
-          answers.email,
-          answers.id,
           answers.name,
+          answers.id,
+          answers.email,
           answers.username
         );
         // push newly created engineer object to [your_team_members]
@@ -283,8 +283,8 @@ function startApp() {
       .then((answers) => {
         // create an intern object and intialize it wirh user's answers; assign it to a constant variable
         const intern = new Intern(
-          answers.id,
           answers.name,
+          answers.id,
           answers.email,
           answers.school
         );
